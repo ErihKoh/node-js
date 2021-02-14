@@ -59,6 +59,26 @@ async function removeContact(contactId) {
 async function addContact(name, email, phone) {
   try {
     const contacts = await getContacts();
+    const contactName = contacts.find(item => item.name.toLowerCase() === name);
+    const contactEmail = contacts.find(item => item.email === email);
+    const contactPhone = contacts.find(item => item.phone === phone);
+    if (contactName) {
+      return console.log('This name already exists!');
+    }
+    if (contactEmail) {
+      return console.log('This email already exists!');
+    }
+    if (contactPhone) {
+      return console.log('This phone already exists!');
+    }
+
+    const newContact = { id: shortid.generate(), name, email, phone };
+    const data = [...contacts, newContact];
+
+    await fs.writeFile(contactsPath, JSON.stringify(data));
+    console.log('Contact added successfully!');
+    console.table(data);
+    return data;
   } catch (e) {
     handleError(e);
   }
