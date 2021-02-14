@@ -59,7 +59,9 @@ async function removeContact(contactId) {
 async function addContact(name, email, phone) {
   try {
     const contacts = await getContacts();
-    const contactName = contacts.find(item => item.name.toLowerCase() === name);
+    const contactName = contacts.find(
+      item => item.name.toLowerCase() === name.toLowerCase(),
+    );
     const contactEmail = contacts.find(item => item.email === email);
     const contactPhone = contacts.find(item => item.phone === phone);
     if (contactName) {
